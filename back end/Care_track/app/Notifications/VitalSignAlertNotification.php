@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Notifications;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+
+class VitalSignAlertNotification extends Notification
+{
+    use Queueable;
+
+    /**
+     * Create a new notification instance.
+     */
+    protected $message;
+    protected $patientName;
+    protected $patientId;
+
+    public function __construct(string $message, string $patientName,int $patientId)
+    {
+        $this->message = $message;
+        $this->patientName = $patientName;
+        $this->patientId = $patientId;
+    }
+
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @return array<int, string>
+     */
+    public function via(object $notifiable): array
+    {
+        return ['database'];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     */
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
+    }
+
+
+    public function toDatabase($notifiable)
+    {
+        return [
+            'patient_id' => $this->patientId,
+            'patient_name' => $this->patientName,  // لازم تعرفها عند الإنشاء
+            'message' => $this->message,
+            'icon' => '⚠️',          // أي أيقونة أو نوع تنبيه تحبي تحطيه
+            'url' => url('/doctor/patients'), // رابط مثلا يشوف عليه الطبيب تفاصيل الحالة
+        ];
+    }
+
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(object $notifiable): array
+    {
+        return [
+            //
+        ];
+    }
+}
