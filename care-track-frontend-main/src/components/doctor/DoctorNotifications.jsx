@@ -64,7 +64,7 @@ export default function DoctorNotifications() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h2 className="text-2xl font-bold mb-6">
+      <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
         🔔 Doctor Notifications
       </h2>
 

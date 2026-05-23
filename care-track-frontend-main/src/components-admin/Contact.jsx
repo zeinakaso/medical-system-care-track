@@ -1,9 +1,11 @@
-/* eslint-disable no-unused-vars */
+// /* eslint-disable no-unused-vars */
 
 
-// **************************************************************************
+// // **************************************************************************
 
 // import React, { useRef, useState } from "react";
+
+// import { useNavigate } from "react-router-dom";
 // import emailjs from "@emailjs/browser";
 // import toast, { Toaster } from "react-hot-toast";
 
@@ -20,6 +22,7 @@
 
 // export default function Contact() {
 //   const form = useRef();
+//   const navigate = useNavigate();
 
 //   const [loading, setLoading] = useState(false);
 
@@ -50,12 +53,64 @@
 //   return (
 //     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 pt-28 pb-16 px-6 md:px-12">
 //       {/* Toast */}
-//       <Toaster position="top-right" reverseOrder={false} />
+//       <Toaster
+//   position="bottom-right"
+//   reverseOrder={false}
+//   toastOptions={{
+//     duration: 4000,
+
+//     style: {
+//       background: "rgba(255,255,255,0.85)",
+//       color: "#1e3a8a",
+//       backdropFilter: "blur(14px)",
+//       border: "1px solid rgba(191,219,254,0.7)",
+//       borderRadius: "20px",
+//       padding: "16px 18px",
+//       fontSize: "15px",
+//       fontWeight: "600",
+//       boxShadow: "0 20px 50px rgba(59,130,246,0.15)",
+//     },
+
+//     success: {
+//       iconTheme: {
+//         primary: "#2563eb",
+//         secondary: "#ffffff",
+//       },
+
+//       style: {
+//         border: "1px solid #bfdbfe",
+//       },
+//     },
+
+//     error: {
+//       iconTheme: {
+//         primary: "#ef4444",
+//         secondary: "#ffffff",
+//       },
+
+//       style: {
+//         border: "1px solid #fecaca",
+//         color: "#991b1b",
+//       },
+//     },
+//   }}
+// />
+
+
+
+
+
+
+
+
+
+
+
 
 
 //       <div className="fixed top-6 right-6 z-50">
 //         <button
-//           onClick={() => (window.location.href = "/")}
+//           onClick={() => navigate(-1)}
 //           className="
 //             group
 //             relative
@@ -193,6 +248,7 @@
 //                 </div>
 //               </div>
 //             </div>
+
 //           </div>
 
 //           {/* Right Side Form */}
@@ -301,11 +357,14 @@
 
 
 
+// // 222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
+
 
 
 
 // ******************************************************************
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
 import { User, Mail, MessageSquare, Send, MapPin, Phone, Home, ArrowLeft } from "lucide-react";
@@ -313,6 +372,7 @@ import { User, Mail, MessageSquare, Send, MapPin, Phone, Home, ArrowLeft } from 
 export default function Contact() {
   const form = useRef();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const sendEmail = async (e) => {
     e.preventDefault();
@@ -378,7 +438,7 @@ export default function Contact() {
       {/* BACK BUTTON */}
        <div className="fixed top-6 right-6 z-50">
         <button
-          onClick={() => (window.location.href = "/")}
+          onClick={() => navigate(-1)}
           className="
             group
             relative

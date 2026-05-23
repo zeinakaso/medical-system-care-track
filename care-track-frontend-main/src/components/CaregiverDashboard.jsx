@@ -274,6 +274,17 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components-admin/Navbar.jsx";
 import CaregiverSidebar from "../components-admin/CaregiverSidebar.jsx";
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  AreaChart,
+  Area,
+} from "recharts";
 
 const API_BASE = "http://127.0.0.1:8000/api";
 
@@ -284,6 +295,7 @@ export default function CaregiverDashboard() {
   const [selected, setSelected] = useState(null);
   const [vitals, setVitals] = useState([]);
   const [plans, setPlans] = useState([]);
+  const [search, setSearch] = useState("");
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -321,6 +333,16 @@ export default function CaregiverDashboard() {
     setPlans(pJson?.data?.data || []);
   }
 
+
+  const chartData = [...vitals]
+  .reverse()
+  .map((v, i) => ({
+    index: i + 1,
+    heart: Number(v.heart_rate || 0),
+    temp: Number(v.temperature || 0),
+    bp: Number(v.blood_pressure_systolic || 0),
+  }));
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
 
@@ -342,24 +364,59 @@ export default function CaregiverDashboard() {
         {/* GRID */}
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
 
-          {/* ================= PATIENT WORKSPACE ================= */}
-          <div className="bg-white/60 backdrop-blur-2xl rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-white/40 p-5">
-  
-  {/* HEADER */}
-  <div className="flex items-center justify-between mb-5">
-    <h2 className="text-lg font-bold text-indigo-700 flex items-center gap-2">
-      🧬 Patient Workspace
-    </h2>
 
-    <span className="text-xs px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 border border-indigo-100">
-      {patients.length} patients
+
+
+          {/* ================= PATIENT WORKSPACE ================= */}
+<div className="bg-white/70 backdrop-blur-2xl rounded-[32px] border border-sky-100 shadow-[0_25px_80px_-30px_rgba(14,165,233,0.25)] p-5">
+
+  {/* HEADER */}
+  <div className="flex items-start justify-between mb-4">
+
+    <div>
+      <h2 className="text-lg font-bold bg-gradient-to-r from-sky-600 via-cyan-500 to-indigo-500 bg-clip-text text-transparent flex items-center gap-2">
+        🧬 Patient Workspace
+      </h2>
+
+      <p className="text-xs text-slate-500 mt-1">
+        Select a patient to view full medical profile
+      </p>
+    </div>
+
+    <span className="text-xs px-3 py-1 rounded-full bg-sky-50 text-sky-600 border border-sky-100 shadow-sm">
+      {patients.length} Active Patients
     </span>
+
+  </div>
+
+  {/* SEARCH (إضافة قوية) */}
+  <div className="mb-4">
+    <input
+     
+  placeholder="Search patient..."
+  value={search}
+  onChange={(e) => setSearch(e.target.value)}
+  className="w-full px-4 py-2 rounded-2xl border border-sky-100 bg-white/60 backdrop-blur focus:outline-none focus:ring-2 focus:ring-cyan-300 text-sm"
+/>
+  
   </div>
 
   {/* LIST */}
-  <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1 custom-scroll">
+  <div className="space-y-3 max-h-[520px] overflow-y-auto pr-1 custom-scroll">
 
-    {patients.map((p) => {
+   
+
+  {patients.length === 0 && (
+    <div className="text-center py-10 text-slate-400 text-sm">
+      No patients found 🫤
+    </div>
+  )}
+
+  {patients
+    .filter((p) =>
+      p.patient_name?.toLowerCase().includes(search.toLowerCase())
+    )
+    .map((p) => {
       const isActive = selected?.id === p.id;
 
       return (
@@ -367,61 +424,77 @@ export default function CaregiverDashboard() {
           key={p.id}
           onClick={() => selectPatient(p)}
           className={`
-            group relative overflow-hidden cursor-pointer
-            rounded-2xl p-4 transition-all duration-300
-            border
-            hover:shadow-lg hover:scale-[1.01]
+            relative group cursor-pointer rounded-2xl p-4 border transition-all duration-300 overflow-hidden
+
             ${isActive
-              ? "bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 text-white shadow-xl border-transparent"
-              : "bg-white/70 hover:bg-white border-gray-100"
+              ? "bg-gradient-to-r from-sky-500 via-cyan-500 to-indigo-500 text-white shadow-xl border-transparent scale-[1.01]"
+              : "bg-white border-sky-100 hover:border-cyan-200 hover:shadow-md hover:-translate-y-0.5"
             }
           `}
         >
 
-          {/* glow effect */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-indigo-100/30 to-blue-100/30" />
+          {/* animated glow */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-gradient-to-r from-sky-100/40 to-cyan-100/20" />
 
-          {/* TOP ROW */}
           <div className="relative flex items-center justify-between">
 
-            {/* NAME */}
-            <div>
-              <p className={`font-semibold ${isActive ? "text-white" : "text-gray-800"}`}>
-                {p.patient_name}
-              </p>
+            {/* LEFT */}
+            <div className="flex items-center gap-3">
 
-              <p className={`text-xs mt-1 ${isActive ? "text-white/80" : "text-gray-500"}`}>
-                {p.gender} • {p.birth_date}
-              </p>
+              {/* avatar */}
+              <div className={`
+                w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm
+                ${isActive ? "bg-white/20 text-white" : "bg-sky-100 text-sky-600"}
+              `}>
+                {p.patient_name?.charAt(0)}
+              </div>
+
+              <div>
+                <p className={`font-semibold ${isActive ? "text-white" : "text-slate-800"}`}>
+                  {p.patient_name}
+                </p>
+
+                <p className={`text-xs mt-0.5 ${isActive ? "text-white/80" : "text-slate-500"}`}>
+                  {p.gender} • {p.birth_date}
+                </p>
+              </div>
+
             </div>
 
-            {/* STATUS DOT */}
-            <span
-              className={`w-2.5 h-2.5 rounded-full shadow-sm
-              ${isActive ? "bg-white" : "bg-indigo-500"}
-              `}
-            />
+            {/* status dot */}
+            <span className={`
+              w-2.5 h-2.5 rounded-full shadow-sm
+              ${isActive ? "bg-white" : "bg-cyan-400"}
+            `} />
+
           </div>
 
-          {/* ACTION */}
-          <div className="relative mt-3 flex items-center justify-between">
+          {/* BOTTOM */}
+          <div className="relative flex items-center justify-between mt-3">
 
             <button
               className={`
                 text-xs px-3 py-1.5 rounded-xl font-medium transition
+
                 ${isActive
                   ? "bg-white/20 text-white"
-                  : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
+                  : "bg-sky-50 text-sky-600 hover:bg-sky-100"
                 }
               `}
             >
-              Open Medical File →
+              Open File →
             </button>
 
-            {/* tiny badge */}
-            <span className="text-[10px] opacity-60">
-              ID: {p.id}
-            </span>
+            <div className="flex items-center gap-2">
+
+              <span className={`
+                text-[11px] px-2 py-0.5 rounded-full
+                ${isActive ? "bg-white/20 text-white" : "bg-slate-50 text-slate-500"}
+              `}>
+                ID #{p.id}
+              </span>
+
+            </div>
 
           </div>
 
@@ -430,7 +503,20 @@ export default function CaregiverDashboard() {
     })}
 
   </div>
+
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
           {/* ================= DETAILS ================= */}
           <div className="md:col-span-2 space-y-6">
@@ -641,6 +727,118 @@ export default function CaregiverDashboard() {
 
     </div>
 
+
+
+    {/* ================= REPORTS (NO DESIGN CHANGE) ================= */}
+<div className="bg-white/80 backdrop-blur-2xl rounded-[28px] border border-white shadow-[0_25px_70px_-25px_rgba(0,0,0,0.15)] p-6">
+
+  {/* HEADER */}
+  <div className="flex items-center justify-between mb-6">
+
+    <div>
+      <h2 className="text-xl font-black bg-gradient-to-r from-indigo-600 via-cyan-500 to-sky-500 bg-clip-text text-transparent flex items-center gap-2">
+        📈 Patient Health Analytics
+      </h2>
+      <p className="text-xs text-slate-500 mt-1">
+        Real-time physiological trends overview
+      </p>
+    </div>
+
+    <span className="text-xs px-4 py-1 rounded-full bg-gradient-to-r from-indigo-50 to-cyan-50 text-indigo-600 border border-indigo-100 shadow-sm">
+      Live Reports
+    </span>
+
+  </div>
+
+  {/* CHART GRID */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    {/* HEART RATE */}
+    <div className="bg-gradient-to-br from-rose-50 via-white to-rose-50 border border-rose-100 rounded-2xl p-4 shadow-sm hover:shadow-lg transition">
+
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-sm font-semibold text-rose-600">
+          ❤️ Heart Rate Trend
+        </p>
+
+        <span className="text-[11px] px-3 py-1 rounded-full bg-rose-100 text-rose-600">
+          bpm
+        </span>
+      </div>
+
+      <div className="h-[220px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={chartData}>
+            <defs>
+              <linearGradient id="hr" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#fb7185" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="#fb7185" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+
+            <XAxis dataKey="index" />
+            <YAxis />
+            <Tooltip />
+
+            <Area
+              type="monotone"
+              dataKey="heart"
+              stroke="#fb7185"
+              strokeWidth={3}
+              fill="url(#hr)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+
+    </div>
+
+    {/* TEMPERATURE */}
+    <div className="bg-gradient-to-br from-sky-50 via-white to-cyan-50 border border-sky-100 rounded-2xl p-4 shadow-sm hover:shadow-lg transition">
+
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-sm font-semibold text-cyan-600">
+          🌡 Temperature Trend
+        </p>
+
+        <span className="text-[11px] px-3 py-1 rounded-full bg-cyan-100 text-cyan-600">
+          °C
+        </span>
+      </div>
+
+      <div className="h-[220px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={chartData}>
+            <defs>
+              <linearGradient id="temp" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+
+            <XAxis dataKey="index" />
+            <YAxis />
+            <Tooltip />
+
+            <Line
+              type="monotone"
+              dataKey="temp"
+              stroke="#06b6d4"
+              strokeWidth={3}
+              dot={{ r: 3 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+    </div>
+
+  </div>
+
+ 
+
+</div>
+
   </div>
 )}
 
@@ -651,3 +849,6 @@ export default function CaregiverDashboard() {
     </div>
   );
 }
+
+
+// 333333333333333333333333333333333333333333333333333333333333333333333333333333333333

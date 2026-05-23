@@ -77,9 +77,10 @@
 
 // *****************************************************************************************8
 
-import { LogOut, Menu, User, ArrowLeft,} from "lucide-react";
+import { LogOut, Menu, User, ArrowLeft, Settings,Phone} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar({ title, toggleSidebar }) {
   const navigate = useNavigate();
@@ -120,7 +121,7 @@ export default function Navbar({ title, toggleSidebar }) {
           <Menu size={24} className="text-gray-700 dark:text-white" />
         </button>
 
-        <h1 className="text-base md:text-xl font-bold text-blue-600 dark:text-cyan-400">
+        <h1 className="text-base md:text-2xl font-bold text-blue-600 dark:text-cyan-400">
           {title}
         </h1>
       </div>
@@ -129,8 +130,62 @@ export default function Navbar({ title, toggleSidebar }) {
       <div className="flex items-center gap-4 relative">
 
         {/* AVATAR */}
+       <Link
+  to="/contact-us"
+  className="
+    relative z-[300]
+    w-12 h-12 rounded-full
+    bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-400
+    shadow-lg hover:shadow-cyan-500/40
+    hover:scale-110
+    transition-all duration-300
+    flex items-center justify-center
+    group overflow-hidden
+  "
+>
+              {/* glow effect */}
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition" />
+
+              <Phone
+                size={18}
+                className="text-white drop-shadow-md group-hover:rotate-90 transition duration-300"
+              />
+            </Link>
+
+
+
+         {/* ⚙️ SETTINGS ICON (FANCY VERSION) */}
+            <Link
+  to="/setting"
+  className="
+    relative z-[200]
+    w-12 h-12 rounded-full
+    bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-400
+    shadow-lg hover:shadow-cyan-500/40
+    hover:scale-110
+    transition-all duration-300
+    flex items-center justify-center
+    group overflow-hidden
+  "
+>
+              {/* glow effect */}
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition" />
+
+              <Settings
+                size={18}
+                className="text-white drop-shadow-md group-hover:rotate-90 transition duration-300"
+              />
+            </Link>
         <div className="relative">
            
+           
+
+
+
+
+
+
+
           <button
             onClick={() => setOpen(!open)}
             className="

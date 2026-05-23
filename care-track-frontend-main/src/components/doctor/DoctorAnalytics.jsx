@@ -436,7 +436,7 @@ export default function DoctorAnalytics() {
 
           <div>
 
-            <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl md:text-2xl font-black bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
               Doctor Analytics
             </h1>
 
@@ -448,17 +448,37 @@ export default function DoctorAnalytics() {
 
         </div>
 
-        <div className="bg-white/70 backdrop-blur-2xl border border-white rounded-[28px] px-7 py-4 shadow-xl">
+        <div className="relative overflow-hidden bg-white/60 backdrop-blur-2xl border border-white/40 rounded-[28px] px-6 py-4 shadow-2xl transition-all duration-300 hover:scale-[1.02]">
 
-          <p className="text-slate-500 text-sm mb-1">
-            Monitoring Status
-          </p>
+  {/* glow background */}
+  <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-400/20 rounded-full blur-3xl" />
+  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-cyan-400/10 rounded-full blur-3xl" />
 
-          <h2 className="text-3xl font-black text-emerald-500">
-            Active
-          </h2>
+  <div className="relative flex items-center justify-between">
 
-        </div>
+    {/* LEFT TEXT */}
+    <div>
+
+    
+      <p className="text-slate-500 text-sm font-medium tracking-wide">
+        Monitoring Status
+      </p>
+
+      <h2 className="text-xl font-black text-emerald-500 flex items-center gap-2 mt-1">
+          {/* STATUS DOT */}
+    <div className="flex items-center gap-2">
+      <span className="relative flex h-3 w-3">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+      </span>
+    </div> Active
+      </h2>
+    </div>
+
+    
+
+  </div>
+</div>
 
       </div>
 
@@ -513,7 +533,7 @@ export default function DoctorAnalytics() {
 
             <div>
 
-              <h2 className="text-xl font-black text-red-600 mb-2">
+              <h2 className="text-lg font-black text-red-600 mb-2">
                 Critical Patient Alert
               </h2>
 

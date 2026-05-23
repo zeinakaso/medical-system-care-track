@@ -1,4 +1,3 @@
-
 // ****************************************************************************
 
 // import { useState } from "react";
@@ -214,10 +213,7 @@
 //   );
 // }
 
-
 // _______________________________________________________________________________
-
-
 
 // import { useState, useEffect } from "react";
 // import { Menu, X } from "lucide-react";
@@ -448,9 +444,6 @@
 //   );
 // }
 
-
-
-
 // 1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
 
 // import { useState, useEffect } from "react";
@@ -680,22 +673,241 @@
 //   );
 // }
 
-
 // 22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222
 
+// import { useState, useEffect } from "react";
+// import { Menu, X } from "lucide-react";
+// import caretrack from "../assets/caretrack.png";
+// import { Link, useLocation } from "react-router-dom";
+// import { useTheme } from "../context/ThemeContext";
+
+// export default function Navbar() {
+
+//   const [open, setOpen] = useState(false);
+//   const [scrolled, setScrolled] = useState(false);
+
+//   // eslint-disable-next-line no-unused-vars
+//   const { dark } = useTheme(); // (موجود بس ما عاد نستخدم زر القمر)
+
+//   const location = useLocation();
+
+//   const navLinks = [
+//     { name: "Home", to: "/" },
+//     { name: "Services", to: "/services" },
+//     { name: "About", to: "/about" },
+//     { name: "Contact us", to: "/contact" },
+//   ];
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       setScrolled(window.scrollY > 20);
+//     };
+
+//     window.addEventListener("scroll", handleScroll);
+//     return () => window.removeEventListener("scroll", handleScroll);
+//   }, []);
+
+//   return (
+//     <nav
+//       className={`
+//         fixed top-0 left-0 w-full z-50 transition-all duration-500
+//         ${
+//           scrolled
+//             ? "bg-white dark:bg-gray-900 shadow-lg backdrop-blur-xl"
+//             : "bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl"
+//         }
+//       `}
+//     >
+
+//       {/* NAVBAR */}
+//       <div
+//         className={`
+//           border-b border-blue-100 dark:border-gray-700 transition-all duration-500
+//           ${scrolled ? "py-2" : "py-3"}
+//         `}
+//       >
+//         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+
+//           {/* LOGO */}
+//           <Link
+//             to="/"
+//             className={`
+//               rounded-full p-1
+//               bg-gradient-to-tr from-blue-400 to-cyan-300
+//               shadow-lg hover:scale-110 transition-all duration-500
+//               ${scrolled ? "w-12 h-12" : "w-14 h-14 md:w-16 md:h-16"}
+//             `}
+//           >
+//             <img
+//               src={caretrack}
+//               alt="logo"
+//               className="w-full h-full object-cover rounded-full bg-white"
+//             />
+//           </Link>
+
+//           {/* DESKTOP LINKS */}
+//           <ul className="hidden md:flex gap-10 text-gray-700 dark:text-white font-medium">
+
+//             {navLinks.map((link) => {
+//               const isActive = location.pathname === link.to;
+
+//               return (
+//                 <li key={link.name} className="relative group">
+
+//                   <Link
+//                     to={link.to}
+//                     className={`
+//                       transition-all duration-300
+//                       group-hover:text-blue-600 dark:group-hover:text-cyan-400
+//                       ${isActive ? "text-blue-600 dark:text-cyan-400 font-semibold" : ""}
+//                     `}
+//                   >
+//                     {link.name}
+//                   </Link>
+
+//                   <div
+//                     className={`
+//                       absolute left-0 -bottom-2 h-[2px] w-full
+//                       bg-gradient-to-r from-blue-500 to-cyan-400
+//                       origin-left transition-transform duration-300
+//                       ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}
+//                     `}
+//                   />
+//                 </li>
+//               );
+//             })}
+
+//           </ul>
+
+//           {/* RIGHT SIDE */}
+//           <div className="flex items-center gap-3">
+
+//             {/* ⚙️ SETTINGS ICON (FANCY VERSION) */}
+//             {/* <Link
+//               to="/setting"
+//               className="
+//                 relative w-11 h-11 rounded-full
+//                 bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-400
+//                 shadow-lg hover:shadow-2xl
+//                 hover:scale-110
+//                 transition-all duration-300
+//                 flex items-center justify-center
+//                 group
+//                 overflow-hidden
+//               "
+//             >
+
+//               <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition" />
+
+//               <Settings
+//                 size={18}
+//                 className="text-white drop-shadow-md group-hover:rotate-90 transition duration-300"
+//               />
+//             </Link> */}
+
+//             {/* BUTTONS */}
+//             <div className="hidden md:flex gap-4 items-center">
+
+//               <Link
+//                 to="/login"
+//                 className="
+//                   px-4 py-2 rounded-xl
+//                   border border-blue-500
+//                   text-blue-600 dark:text-cyan-400
+//                   hover:bg-blue-50 dark:hover:bg-gray-800
+//                   hover:scale-105
+//                   transition-all duration-300
+//                 "
+//               >
+//                 Log in
+//               </Link>
+
+//               <Link
+//                 to="/register"
+//                 className="
+//                   px-4 py-2 rounded-xl
+//                   bg-gradient-to-r from-blue-600 to-cyan-500
+//                   text-white
+//                   shadow-md
+//                   hover:shadow-xl
+//                   hover:scale-105
+//                   transition-all duration-300
+//                 "
+//               >
+//                 Register
+//               </Link>
+
+//             </div>
+
+//             {/* MOBILE BUTTON */}
+//             <button
+//               className="md:hidden text-gray-700 dark:text-white hover:scale-110 transition"
+//               onClick={() => setOpen(!open)}
+//             >
+//               {open ? <X size={28} /> : <Menu size={28} />}
+//             </button>
+
+//           </div>
+
+//         </div>
+//       </div>
+
+//       {/* OVERLAY */}
+//       {open && (
+//         <div
+//           className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+//           onClick={() => setOpen(false)}
+//         />
+//       )}
+
+//       {/* MOBILE MENU */}
+//       <div
+//         className={`
+//           fixed top-0 left-0 h-full w-[85%] max-w-sm z-50
+//           bg-white dark:bg-[#0f172a]
+//           shadow-2xl border-r border-blue-100 dark:border-gray-700
+//           transform transition-transform duration-500 ease-in-out
+//           ${open ? "translate-x-0" : "-translate-x-full"}
+//         `}
+//       >
+//         <div className="p-5 space-y-4">
+
+//           {navLinks.map((link) => (
+//             <Link
+//               key={link.name}
+//               to={link.to}
+//               onClick={() => setOpen(false)}
+//               className="
+//                 block px-5 py-4 rounded-2xl
+//                 bg-white dark:bg-slate-800
+//                 border hover:bg-sky-50 dark:hover:bg-slate-700
+//                 transition
+//               "
+//             >
+//               {link.name}
+//             </Link>
+//           ))}
+
+//         </div>
+//       </div>
+
+//     </nav>
+//   );
+// }
+
+// 44444444444444444444444444444444444444444444444444444444444444444444444444444444
 import { useState, useEffect } from "react";
-import { Menu, X, Settings } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import caretrack from "../assets/caretrack.png";
 import { Link, useLocation } from "react-router-dom";
-import { useTheme } from "../context/ThemeContext";
+import {useSettings  } from "../context/SettingsContext";
 
 export default function Navbar() {
-
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
-  const { dark } = useTheme(); // (موجود بس ما عاد نستخدم زر القمر)
+  const { dark } = useSettings();
 
   const location = useLocation();
 
@@ -712,6 +924,7 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -726,7 +939,6 @@ export default function Navbar() {
         }
       `}
     >
-
       {/* NAVBAR */}
       <div
         className={`
@@ -735,7 +947,6 @@ export default function Navbar() {
         `}
       >
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
-
           {/* LOGO */}
           <Link
             to="/"
@@ -755,74 +966,55 @@ export default function Navbar() {
 
           {/* DESKTOP LINKS */}
           <ul className="hidden md:flex gap-10 text-gray-700 dark:text-white font-medium">
-
             {navLinks.map((link) => {
               const isActive = location.pathname === link.to;
 
               return (
                 <li key={link.name} className="relative group">
-
                   <Link
                     to={link.to}
                     className={`
                       transition-all duration-300
                       group-hover:text-blue-600 dark:group-hover:text-cyan-400
-                      ${isActive ? "text-blue-600 dark:text-cyan-400 font-semibold" : ""}
+                      ${
+                        isActive
+                          ? "text-blue-600 dark:text-cyan-400 font-semibold"
+                          : ""
+                      }
                     `}
                   >
                     {link.name}
                   </Link>
 
+                  {/* UNDERLINE */}
                   <div
                     className={`
                       absolute left-0 -bottom-2 h-[2px] w-full
                       bg-gradient-to-r from-blue-500 to-cyan-400
                       origin-left transition-transform duration-300
-                      ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}
+                      ${
+                        isActive
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100"
+                      }
                     `}
                   />
                 </li>
               );
             })}
-
           </ul>
 
           {/* RIGHT SIDE */}
           <div className="flex items-center gap-3">
-
-            {/* ⚙️ SETTINGS ICON (FANCY VERSION) */}
-            <Link
-              to="/setting"
-              className="
-                relative w-11 h-11 rounded-full
-                bg-gradient-to-br from-indigo-500 via-blue-500 to-cyan-400
-                shadow-lg hover:shadow-2xl
-                hover:scale-110
-                transition-all duration-300
-                flex items-center justify-center
-                group
-                overflow-hidden
-              "
-            >
-              {/* glow effect */}
-              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition" />
-
-              <Settings
-                size={18}
-                className="text-white drop-shadow-md group-hover:rotate-90 transition duration-300"
-              />
-            </Link>
-
             {/* BUTTONS */}
             <div className="hidden md:flex gap-4 items-center">
-
               <Link
                 to="/login"
                 className="
                   px-4 py-2 rounded-xl
                   border border-blue-500
                   text-blue-600 dark:text-cyan-400
-                  hover:bg-blue-50 dark:hover:bg-gray-800
+                  hover:bg-blue-50 dark:hover:bg-white
                   hover:scale-105
                   transition-all duration-300
                 "
@@ -844,69 +1036,140 @@ export default function Navbar() {
               >
                 Register
               </Link>
-
             </div>
 
             {/* MOBILE BUTTON */}
             <button
-              className="md:hidden text-gray-700 dark:text-white hover:scale-110 transition"
+              className="
+                md:hidden
+                text-gray-700 dark:text-white
+                hover:scale-110 transition
+              "
               onClick={() => setOpen(!open)}
             >
               {open ? <X size={28} /> : <Menu size={28} />}
             </button>
-
           </div>
-
         </div>
       </div>
 
       {/* OVERLAY */}
       {open && (
         <div
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+          className="
+            fixed inset-0 bg-white
+            backdrop-blur-sm z-40
+          "
           onClick={() => setOpen(false)}
         />
       )}
 
-      {/* MOBILE MENU */}
-      <div
-        className={`
-          fixed top-0 left-0 h-full w-[85%] max-w-sm z-50
-          bg-white dark:bg-[#0f172a]
-          shadow-2xl border-r border-blue-100 dark:border-gray-700
-          transform transition-transform duration-500 ease-in-out
-          ${open ? "translate-x-0" : "-translate-x-full"}
-        `}
+    {/* MOBILE MENU (ULTRA CLEAN FULL COVER) */}
+{/* OVERLAY */}
+<div
+  className={`
+    fixed inset-0 z-50
+    transition-opacity duration-300
+    ${open ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"}
+  `}
+>
+
+  {/* BACKDROP */}
+  <div
+    className="absolute inset-0 bg-black/40"
+    onClick={() => setOpen(false)}
+  />
+
+  {/* PANEL (ONLY THIS MOVES) */}
+  <div
+    className={`
+      absolute top-0 left-0 h-full w-[90%] max-w-sm
+      bg-white shadow-2xl
+      border-r border-gray-100
+
+      transform transition-transform duration-300 ease-out
+      ${open ? "translate-x-0" : "-translate-x-full"}
+    `}
+  >
+
+    {/* CLOSE BUTTON (FIXED 100%) */}
+    <button
+      onClick={() => setOpen(false)}
+      className="
+        absolute top-5 right-5
+        w-10 h-10 rounded-full
+        bg-gray-100 hover:bg-gray-200
+        flex items-center justify-center
+        shadow-sm z-50
+      "
+    >
+      ✕
+    </button>
+
+    {/* HEADER */}
+    <div className="p-6 border-b border-gray-100">
+      <h2 className="text-xl font-bold text-gray-800">CareTrack</h2>
+      <p className="text-xs text-gray-500">Medical Navigation System</p>
+    </div>
+
+    {/* LINKS */}
+    <div className="p-5 space-y-3">
+
+      {navLinks.map((link) => (
+        <Link
+          key={link.name}
+          to={link.to}
+          onClick={() => setOpen(false)}
+          className="
+            block px-5 py-4 rounded-2xl
+            bg-gray-50
+            text-gray-700 font-medium
+            hover:bg-blue-50 hover:text-blue-600
+            transition
+          "
+        >
+          {link.name}
+        </Link>
+      ))}
+
+      {/* LOGIN */}
+      <Link
+        to="/login"
+        onClick={() => setOpen(false)}
+        className="
+          mt-6 block px-5 py-4 rounded-2xl
+          bg-gradient-to-r from-blue-600 to-cyan-500
+          text-white font-semibold text-center
+        "
       >
-        <div className="p-5 space-y-4">
+        Log in
+      </Link>
 
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.to}
-              onClick={() => setOpen(false)}
-              className="
-                block px-5 py-4 rounded-2xl
-                bg-white dark:bg-slate-800
-                border hover:bg-sky-50 dark:hover:bg-slate-700
-                transition
-              "
-            >
-              {link.name}
-            </Link>
-          ))}
+      {/* REGISTER */}
+      <Link
+        to="/register"
+        onClick={() => setOpen(false)}
+        className="
+          block px-5 py-4 rounded-2xl
+          border border-blue-200
+          text-blue-600 font-semibold text-center
+        "
+      >
+        Register
+      </Link>
 
-        </div>
-      </div>
+    </div>
 
+    {/* FOOTER */}
+    <div className="absolute bottom-6 left-0 w-full text-center text-xs text-gray-400">
+      🫀 CareTrack System Active
+    </div>
+
+  </div>
+</div>
+
+
+      
     </nav>
   );
 }
-
-
-
-
-
-
-
-

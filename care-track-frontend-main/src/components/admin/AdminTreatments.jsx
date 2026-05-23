@@ -417,7 +417,7 @@ export default function AdminTreatments() {
     <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
       <div className="space-y-1">
-        <h2 className="text-3xl sm:text-4xl font-black text-indigo-700 flex items-center gap-2">
+        <h2 className="text-3xl sm:text-3xl font-black text-indigo-700 flex items-center gap-2">
           Treatment Plans
           <span className="text-2xl animate-bounce">💊</span>
         </h2>
@@ -454,36 +454,74 @@ export default function AdminTreatments() {
 
 
     {/* TABLE */}
-    <div className="relative bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-white overflow-hidden">
+ <div className="relative overflow-hidden rounded-[32px] border border-white/50 bg-white/70 backdrop-blur-2xl shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
 
-  {/* top glow line */}
-  <div className="h-[3px] bg-gradient-to-r from-sky-400 via-indigo-500 to-emerald-400 animate-pulse"></div>
+  {/* background glow */}
+  <div className="absolute -top-24 -right-24 w-72 h-72 bg-sky-300/20 blur-[120px] rounded-full"></div>
+  <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-indigo-300/20 blur-[120px] rounded-full"></div>
+
+  {/* top gradient line */}
+  <div className="h-1 bg-gradient-to-r from-sky-400 via-indigo-500 to-emerald-400"></div>
 
   {loading ? (
-    <p className="p-6 text-gray-500">Loading treatments...</p>
+
+    <div className="p-16 text-center">
+
+      <div className="text-4xl mb-4 animate-pulse">
+        💊
+      </div>
+
+      <p className="text-gray-500 font-medium">
+        Loading treatments...
+      </p>
+
+    </div>
+
   ) : (
+
     <div className="overflow-x-auto">
 
-      <table className="w-full min-w-[900px] text-sm">
+      <table className="w-full min-w-[950px]">
 
         {/* HEADER */}
-        <thead className="sticky top-0 z-10">
-          <tr className="bg-gradient-to-r from-indigo-50 via-sky-50 to-emerald-50 text-indigo-700 uppercase text-xs tracking-wider">
+        <thead>
 
-            <th className="p-4 text-left">#</th>
-            <th className="text-left">Diagnosis</th>
-            <th className="text-left">Medications</th>
-            <th className="text-left">Instructions</th>
-            <th className="text-left">Start</th>
-            <th className="text-left">End</th>
-            <th className="text-left">Status</th>
-            {/* <th className="text-left">Actions</th> */}
+          <tr className="bg-gradient-to-r from-sky-50 via-indigo-50 to-emerald-50 text-[11px] uppercase tracking-[0.18em] text-gray-500 border-b border-white">
+
+            <th className="px-6 py-5 text-left font-bold">
+              ID
+            </th>
+
+            <th className="px-6 py-5 text-left font-bold">
+              Diagnosis
+            </th>
+
+            <th className="px-6 py-5 text-left font-bold">
+              Medications
+            </th>
+
+            <th className="px-6 py-5 text-left font-bold">
+              Instructions
+            </th>
+
+            <th className="px-6 py-5 text-left font-bold">
+              Start Date
+            </th>
+
+            <th className="px-6 py-5 text-left font-bold">
+              End Date
+            </th>
+
+            <th className="px-6 py-5 text-left font-bold">
+              Status
+            </th>
 
           </tr>
+
         </thead>
 
         {/* BODY */}
-        <tbody className="divide-y divide-gray-100">
+        <tbody>
 
           {filteredTreatments.map((t, index) => {
 
@@ -491,92 +529,134 @@ export default function AdminTreatments() {
               new Date(t.end_date) > new Date();
 
             return (
+
               <tr
                 key={t.id}
                 className="
-                  group transition-all duration-300
-                  hover:bg-gradient-to-r hover:from-sky-50 hover:to-indigo-50
-                  hover:shadow-md hover:scale-[1.005]
+                  group
+                  border-b border-gray-100/70
+                  hover:bg-gradient-to-r
+                  hover:from-sky-50/70
+                  hover:to-indigo-50/70
+                  transition-all duration-300
                 "
               >
 
-                {/* ID */}
-                <td className="p-4 text-gray-400 font-medium">
-                  #{t.id}
+                {/* NUMBER */}
+                <td className="px-6 py-5">
+
+                  <div className="flex items-center gap-3">
+
+                    <div
+                       className="
+      inline-flex
+      items-center
+      justify-center
+      min-w-[34px]
+      h-9
+      px-3
+      rounded-full
+      bg-sky-50
+      border border-sky-100
+      text-sky-700
+      text-xs
+      font-bold
+      shadow-sm
+    "
+                    >
+                      {index + 1}
+                    </div>
+
+                  </div>
+
                 </td>
 
                 {/* DIAGNOSIS */}
-                <td className="p-4 font-semibold text-gray-800 group-hover:text-indigo-700 transition">
-                  {t.diagnosis}
+                <td className="px-6 py-5">
+
+                  <div className="flex flex-col">
+
+                    <span className="font-bold text-gray-800 group-hover:text-indigo-700 transition">
+                      {t.diagnosis}
+                    </span>
+
+                    {/* <span className="text-xs text-gray-400 mt-1">
+                      Treatment Diagnosis
+                    </span> */}
+
+                  </div>
+
                 </td>
 
                 {/* MEDICATIONS */}
-                <td className="p-4 text-gray-600">
-                  <span className="px-2 py-1 rounded-lg bg-white/60 border text-xs">
-                    {t.medications}
-                  </span>
+                <td className="px-6 py-5">
+
+                  <div className="inline-flex items-center px-3 py-2 rounded-2xl bg-white border border-sky-100 shadow-sm text-gray-600 text-xs font-medium">
+
+                    💊 {t.medications}
+
+                  </div>
+
                 </td>
 
                 {/* INSTRUCTIONS */}
-                <td className="p-4 text-gray-600 max-w-[220px] truncate">
-                  {t.instructions}
+                <td className="px-6 py-5 max-w-[260px]">
+
+                  <p className="text-gray-500 leading-relaxed line-clamp-2">
+                    {t.instructions}
+                  </p>
+
                 </td>
 
                 {/* START */}
-                <td className="p-4 text-gray-500">
-                  {t.start_date}
+                <td className="px-6 py-5">
+
+                  <div className="text-gray-600 font-medium">
+                    {t.start_date}
+                  </div>
+
                 </td>
 
                 {/* END */}
-                <td className="p-4 text-gray-500">
-                  {t.end_date}
+                <td className="px-6 py-5">
+
+                  <div className="text-gray-600 font-medium">
+                    {t.end_date}
+                  </div>
+
                 </td>
 
                 {/* STATUS */}
-                <td className="p-4">
+                <td className="px-6 py-5">
+
                   <span
                     className={`
-                      px-3 py-1 rounded-full text-xs font-semibold
+                      inline-flex items-center gap-2
+                      px-4 py-2 rounded-full
+                      text-xs font-bold border
+                      shadow-sm
                       ${isActive
-                        ? "bg-emerald-100 text-emerald-600 border border-emerald-200"
-                        : "bg-red-100 text-red-500 border border-red-200"
+                        ? "bg-emerald-50 text-emerald-600 border-emerald-200"
+                        : "bg-red-50 text-red-500 border-red-200"
                       }
                     `}
                   >
+
+                    <span
+                      className={`
+                        w-2 h-2 rounded-full animate-pulse
+                        ${isActive ? "bg-emerald-500" : "bg-red-500"}
+                      `}
+                    ></span>
+
                     {isActive ? "Active" : "Expired"}
+
                   </span>
+
                 </td>
 
-                {/* ACTIONS */}
-                {/* <td className="p-4 flex gap-3">
-
-                  <button
-                    onClick={() => handleEdit(t)}
-                    className="
-                      flex items-center gap-1 px-3 py-1 rounded-xl
-                      text-indigo-600 hover:bg-indigo-100
-                      transition-all duration-200
-                    "
-                  >
-                    <Pencil size={16} />
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => handleDelete(t.id)}
-                    className="
-                      flex items-center gap-1 px-3 py-1 rounded-xl
-                      text-red-500 hover:bg-red-100
-                      transition-all duration-200
-                    "
-                  >
-                    <Trash2 size={16} />
-                    Delete
-                  </button>
-
-                </td> */}
-
               </tr>
+
             );
           })}
 
@@ -585,9 +665,10 @@ export default function AdminTreatments() {
       </table>
 
     </div>
-  )}
-</div>
 
+  )}
+
+</div>
 
 
 

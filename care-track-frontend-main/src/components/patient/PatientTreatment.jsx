@@ -576,7 +576,7 @@ export default function PatientTreatment() {
               <Sparkles className="text-cyan-500" size={22} />
             </div>
 
-            <h1 className="text-3xl md:text-4xl font-black text-slate-700">
+            <h1 className="text-3xl md:text-3xl font-black text-slate-700">
               Treatment Plans
             </h1>
 
@@ -595,7 +595,7 @@ export default function PatientTreatment() {
             Total Plans
           </p>
 
-          <h2 className="text-3xl font-black text-cyan-500">
+          <h2 className="text-2xl font-black text-cyan-500">
             {plans.length}
           </h2>
 

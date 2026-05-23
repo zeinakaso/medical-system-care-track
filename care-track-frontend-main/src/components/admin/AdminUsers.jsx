@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import React, { useEffect, useState } from "react";
 // import API from "../../api";
 // import { Search, User, Eye, EyeOff } from "lucide-react";
@@ -561,7 +562,7 @@ setTimeout(() => {
         </span>
       </div>
 
-      <h2 className="text-2xl sm:text-4xl font-black text-sky-700 tracking-tight">
+      <h2 className="text-3xl sm:text-3xl font-black text-sky-700 tracking-tight">
         Users Management 💙
       </h2>
 
@@ -611,134 +612,420 @@ setTimeout(() => {
     </div>
 
     {/* TABLE CARD */}
-    <div className="bg-white/70 backdrop-blur-2xl border border-white/40 rounded-3xl shadow-xl overflow-hidden">
+   <div
+  className="
+    relative
+    overflow-hidden
+    rounded-[32px]
+    border border-white/40
+    bg-white/60
+    backdrop-blur-2xl
+    shadow-[0_20px_80px_rgba(15,23,42,0.08)]
+  "
+>
 
-      {loading ? (
-        <div className="p-10 text-center text-gray-500">
+  {/* TOP GLOW */}
+  <div className="h-1 bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500"></div>
+
+  {/* BACKGROUND ORBS */}
+  <div className="absolute -top-20 right-0 w-72 h-72 bg-sky-300/10 blur-[120px] rounded-full"></div>
+  <div className="absolute bottom-0 left-0 w-72 h-72 bg-cyan-300/10 blur-[120px] rounded-full"></div>
+
+  {loading ? (
+
+    <div className="relative p-16 text-center">
+
+      <div className="inline-flex flex-col items-center gap-4">
+
+        <div className="w-14 h-14 rounded-2xl border-4 border-sky-200 border-t-sky-500 animate-spin"></div>
+
+        <p className="text-gray-500 font-medium">
           Loading users...
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
+        </p>
 
-          <table className="w-full min-w-[700px] text-sm">
-
-            {/* HEADER */}
-            <thead className="bg-gradient-to-r from-sky-50 to-cyan-50 text-gray-600 text-xs uppercase tracking-wider">
-              <tr>
-                <th className="p-4 text-left">ID</th>
-                <th className="p-4 text-left">User</th>
-                <th className="p-4 text-left">Email</th>
-                <th className="p-4 text-left">Role</th>
-                <th className="p-4 text-left">Actions</th>
-              </tr>
-            </thead>
-
-            {/* BODY */}
-            <tbody>
-
-              {filteredUsers.map((u) => (
-                <tr
-                  key={u.id}
-                  className="border-t border-gray-100 hover:bg-sky-50/50 transition"
-                >
-
-                  <td className="p-4 text-gray-500">{u.id}</td>
-
-                  <td className="p-4 font-semibold text-gray-800">
-                    {u.name}
-                  </td>
-
-                  <td className="p-4 text-gray-600">
-                    {u.email}
-                  </td>
-
-                  <td className="p-4">
-                    <span className="
-                      px-3 py-1 rounded-full text-xs font-semibold
-                      bg-gradient-to-r from-sky-100 to-cyan-100
-                      text-sky-700
-                    ">
-                      {u.role}
-                    </span>
-                  </td>
-
-                  <td className="p-4 flex gap-3">
-
-                    <button
-                      onClick={() => openEdit(u)}
-                      className="text-sky-600 hover:text-sky-800 font-medium transition"
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      onClick={() => handleDelete(u.id)}
-                      className="text-red-500 hover:text-red-700 font-medium transition"
-                    >
-                      Delete
-                    </button>
-
-                  </td>
-
-                </tr>
-              ))}
-
-            </tbody>
-
-          </table>
-
-        </div>
-      )}
+      </div>
 
     </div>
 
+  ) : (
+
+    <div className="overflow-x-auto relative">
+
+      <table className="w-full min-w-[850px]">
+
+        {/* HEADER */}
+        <thead>
+
+          <tr className="border-b border-white/30 bg-white/30 backdrop-blur-xl">
+
+            <th className="px-6 py-5 text-left text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
+              ID
+            </th>
+
+            <th className="px-6 py-5 text-left text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
+              User
+            </th>
+
+            <th className="px-6 py-5 text-left text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
+              Email
+            </th>
+
+            <th className="px-6 py-5 text-left text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
+              Role
+            </th>
+
+            <th className="px-6 py-5 text-left text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+        {/* BODY */}
+        <tbody>
+
+       
+          {filteredUsers.map((u, index) => (
+
+            <tr
+              key={u.id}
+              className="
+                border-b border-white/20
+                hover:bg-sky-50/50
+                transition-all
+                duration-300
+                group
+              "
+            >
+
+              {/* ID */}
+             <td className="px-6 py-5">
+
+  <div
+    className="
+      inline-flex
+      items-center
+      justify-center
+      min-w-[34px]
+      h-9
+      px-3
+      rounded-full
+      bg-sky-50
+      border border-sky-100
+      text-sky-700
+      text-xs
+      font-bold
+      shadow-sm
+    "
+  >
+    {u.id}
+  </div>
+
+</td>
+
+              {/* USER */}
+              <td className="px-6 py-5">
+
+                <div className="flex items-center gap-4">
+
+                  {/* AVATAR */}
+                  {/* <div
+                    className="
+                      w-12 h-12 rounded-2xl
+                      bg-gradient-to-br
+                      from-sky-500
+                      to-cyan-400
+                      text-white
+                      flex items-center justify-center
+                      font-bold
+                      shadow-lg
+                    "
+                  >
+                    {u.name?.charAt(0).toUpperCase()}
+                  </div> */}
+
+                  <div>
+
+                    <h3 className="font-bold text-gray-800 text-[15px]">
+                      {u.name}
+                    </h3>
+
+                    {/* <p className="text-xs text-gray-400">
+                      System User
+                    </p> */}
+
+                  </div>
+
+                </div>
+
+              </td>
+
+              {/* EMAIL */}
+              <td className="px-6 py-5">
+
+                <span className="text-gray-600 font-medium">
+                  {u.email}
+                </span>
+
+              </td>
+
+              {/* ROLE */}
+              <td className="px-6 py-5">
+
+                <span
+                  className="
+                    inline-flex items-center gap-2
+                    px-4 py-2
+                    rounded-full
+                    text-xs font-bold
+                    bg-gradient-to-r
+                    from-sky-100
+                    to-cyan-100
+                    text-sky-700
+                    border border-sky-200
+                  "
+                >
+
+                  <div className="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></div>
+
+                  {u.role}
+
+                </span>
+
+              </td>
+
+              {/* ACTIONS */}
+              <td className="px-6 py-5">
+
+  <div className="flex items-center gap-2">
+
+    <button
+      onClick={() => openEdit(u)}
+      className="
+        px-3 py-1.5
+        rounded-lg
+        bg-sky-100
+        text-sky-700
+        text-xs
+        font-semibold
+        hover:bg-sky-200
+        hover:scale-105
+        transition-all
+      "
+    >
+      Edit
+    </button>
+
+    <button
+      onClick={() => handleDelete(u.id)}
+      className="
+        px-3 py-1.5
+        rounded-lg
+        bg-red-100
+        text-red-600
+        text-xs
+        font-semibold
+        hover:bg-red-200
+        hover:scale-105
+        transition-all
+      "
+    >
+      Delete
+    </button>
+
+  </div>
+
+</td>
+
+            </tr>
+
+          ))}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  )}
+
+</div>
+
     {/* MODAL */}
-    {showModal && (
-      <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    {/* MODAL */}
+{showModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
 
-        <div className="w-full max-w-md bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/40 p-6 animate-[fadeIn_0.3s_ease]">
+    {/* LIGHT OVERLAY */}
+    <div className="absolute inset-0 bg-sky-900/20 backdrop-blur-md"></div>
 
-          {/* HEADER */}
-          <div className="flex items-center gap-2 mb-4">
-            <User className="text-sky-600" />
-            <h3 className="text-lg font-bold text-gray-800">
-              {editingId ? "Edit User" : "Add User"}
-            </h3>
+    {/* SOFT LIGHTS */}
+    <div className="absolute top-10 left-10 w-60 h-60 bg-cyan-300/20 rounded-full blur-[120px]"></div>
+    <div className="absolute bottom-0 right-0 w-72 h-72 bg-sky-300/20 rounded-full blur-[130px]"></div>
+
+    {/* MODAL */}
+    <div
+      className="
+        relative
+        w-full
+        max-w-lg
+        overflow-hidden
+        rounded-[32px]
+        border border-white/60
+        bg-white/80
+        backdrop-blur-3xl
+        shadow-[0_20px_80px_rgba(14,165,233,0.18)]
+      "
+    >
+
+      {/* TOP LINE */}
+      <div className="h-1.5 bg-gradient-to-r from-cyan-400 via-sky-500 to-blue-500"></div>
+
+      {/* GLOW */}
+      <div className="absolute -top-20 -right-20 w-72 h-72 bg-cyan-300/20 rounded-full blur-[120px]"></div>
+
+      <div className="relative z-10 p-6 md:p-7">
+
+        {/* HEADER */}
+        <div className="flex items-center justify-between mb-7">
+
+          <div className="flex items-center gap-4">
+
+            {/* ICON */}
+            <div
+              className="
+                w-16 h-16
+                rounded-2xl
+                bg-gradient-to-br
+                from-cyan-400
+                to-sky-500
+                flex items-center justify-center
+                shadow-lg
+              "
+            >
+              <User size={28} className="text-white" />
+            </div>
+
+            {/* TEXT */}
+            <div>
+
+              <div className="flex items-center gap-2 mb-1">
+
+                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+
+                <span className="text-[11px] uppercase tracking-[0.2em] text-sky-500 font-bold">
+                  Admin Panel
+                </span>
+
+              </div>
+
+              <h2 className="text-2xl font-black text-slate-800">
+                {editingId ? "Edit User" : "Create User"}
+              </h2>
+
+              <p className="text-slate-500 text-sm mt-1">
+                Manage system accounts securely
+              </p>
+
+            </div>
+
           </div>
 
-          {/* ALERTS */}
-          {error && (
-            <div className="mb-3 text-sm p-3 rounded-xl bg-red-50 text-red-600 border border-red-100">
-              {error}
-            </div>
-          )}
+          {/* CLOSE */}
+          <button
+            onClick={() => setShowModal(false)}
+            className="
+              w-10 h-10 rounded-xl
+              bg-slate-100
+              text-slate-500
+              hover:bg-slate-200
+              hover:text-slate-700
+              transition-all
+            "
+          >
+            ✕
+          </button>
 
-          {success && (
-            <div className="mb-3 text-sm p-3 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
-              {success}
-            </div>
-          )}
+        </div>
 
-          {/* FORM */}
-          <div className="space-y-3">
+        {/* ALERTS */}
+        {error && (
+          <div className="mb-4 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600">
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-600">
+            {success}
+          </div>
+        )}
+
+        {/* FORM */}
+        <div className="space-y-4">
+
+          {/* NAME */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
+              Full Name
+            </label>
 
             <input
               value={formData.name}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
-              placeholder="Full Name"
-              className="w-full p-3 rounded-xl border border-gray-100 bg-white/70 focus:ring-2 focus:ring-sky-200 outline-none"
+              placeholder="Enter full name"
+              className="
+                w-full
+                rounded-2xl
+                border border-slate-200
+                bg-white/70
+                px-4 py-3.5
+                text-slate-700
+                outline-none
+                focus:ring-4
+                focus:ring-sky-100
+                focus:border-sky-300
+                transition-all
+              "
             />
+          </div>
+
+          {/* EMAIL */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
+              Email Address
+            </label>
 
             <input
               value={formData.email}
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
-              placeholder="Email"
-              className="w-full p-3 rounded-xl border border-gray-100 bg-white/70 focus:ring-2 focus:ring-sky-200 outline-none"
+              placeholder="example@email.com"
+              className="
+                w-full
+                rounded-2xl
+                border border-slate-200
+                bg-white/70
+                px-4 py-3.5
+                text-slate-700
+                outline-none
+                focus:ring-4
+                focus:ring-sky-100
+                focus:border-sky-300
+                transition-all
+              "
             />
+          </div>
+
+          {/* PASSWORD */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
+              Password
+            </label>
 
             <div className="relative">
 
@@ -748,26 +1035,65 @@ setTimeout(() => {
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
-                placeholder="Password"
-                className="w-full p-3 pr-10 rounded-xl border border-gray-100 bg-white/70 focus:ring-2 focus:ring-sky-200 outline-none"
+                placeholder="••••••••"
+                className="
+                  w-full
+                  rounded-2xl
+                  border border-slate-200
+                  bg-white/70
+                  px-4 py-3.5 pr-12
+                  text-slate-700
+                  outline-none
+                  focus:ring-4
+                  focus:ring-sky-100
+                  focus:border-sky-300
+                  transition-all
+                "
               />
 
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-500 hover:text-sky-600 transition"
+                className="
+                  absolute
+                  right-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-slate-400
+                  hover:text-sky-600
+                  transition
+                "
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
 
             </div>
+          </div>
+
+          {/* ROLE */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
+              User Role
+            </label>
 
             <select
               value={formData.role}
               onChange={(e) =>
                 setFormData({ ...formData, role: e.target.value })
               }
-              className="w-full p-3 rounded-xl border border-gray-100 bg-white/70 focus:ring-2 focus:ring-sky-200 outline-none"
+              className="
+                w-full
+                rounded-2xl
+                border border-slate-200
+                bg-white/70
+                px-4 py-3.5
+                text-slate-700
+                outline-none
+                focus:ring-4
+                focus:ring-sky-100
+                focus:border-sky-300
+                transition-all
+              "
             >
               <option value="admin">Admin</option>
               <option value="doctor">Doctor</option>
@@ -777,30 +1103,56 @@ setTimeout(() => {
 
           </div>
 
-          {/* BUTTONS */}
-          <div className="flex gap-3 mt-5">
+        </div>
 
-            <button
-              onClick={() => setShowModal(false)}
-              className="w-full py-3 rounded-xl bg-gray-100 hover:bg-gray-200 transition"
-            >
-              Cancel
-            </button>
+        {/* BUTTONS */}
+        <div className="flex gap-3 mt-7">
 
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-semibold shadow-md hover:scale-[1.02] active:scale-95 transition disabled:opacity-50"
-            >
-              {saving ? "Saving..." : "Save"}
-            </button>
+          <button
+            onClick={() => setShowModal(false)}
+            className="
+              w-full
+              py-3.5
+              rounded-2xl
+              bg-slate-100
+              text-slate-700
+              font-semibold
+              hover:bg-slate-200
+              transition-all
+            "
+          >
+            Cancel
+          </button>
 
-          </div>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="
+              w-full
+              py-3.5
+              rounded-2xl
+              bg-gradient-to-r
+              from-cyan-400
+              to-sky-500
+              text-white
+              font-bold
+              shadow-lg
+              hover:scale-[1.02]
+              transition-all
+              disabled:opacity-50
+            "
+          >
+            {saving ? "Saving..." : "Save User"}
+          </button>
 
         </div>
 
       </div>
-    )}
+
+    </div>
+
+  </div>
+)}
 
   </div>
 );

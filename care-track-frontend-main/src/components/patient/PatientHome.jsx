@@ -478,29 +478,102 @@ export default function PatientDashboard() {
   });
 
   // ================= NOTIFICATIONS =================
-  const showSuccess = (msg) => {
-    const el = document.createElement("div");
-    el.innerText = msg;
+  // const showSuccess = (msg) => {
+  //   const el = document.createElement("div");
+  //   el.innerText = msg;
 
-    el.className =
-      "fixed top-5 right-5 z-[99999] bg-green-500 text-white px-4 py-3 rounded-xl shadow-2xl";
+  //   el.className =
+  //     "fixed top-5 right-5 z-[99999] bg-green-500 text-white px-4 py-3 rounded-xl shadow-2xl";
 
-    document.body.appendChild(el);
+  //   document.body.appendChild(el);
 
-    setTimeout(() => el.remove(), 3000);
-  };
+  //   setTimeout(() => el.remove(), 3000);
+  // };
 
-  const showError = (msg) => {
-    const el = document.createElement("div");
-    el.innerText = msg;
+  // const showError = (msg) => {
+  //   const el = document.createElement("div");
+  //   el.innerText = msg;
 
-    el.className =
-      "fixed top-5 right-5 z-[99999] bg-red-500 text-white px-4 py-3 rounded-xl shadow-2xl";
+  //   el.className =
+  //     "fixed top-5 right-5 z-[99999] bg-red-500 text-white px-4 py-3 rounded-xl shadow-2xl";
 
-    document.body.appendChild(el);
+  //   document.body.appendChild(el);
 
-    setTimeout(() => el.remove(), 3000);
-  };
+  //   setTimeout(() => el.remove(), 3000);
+  // };
+// ================= PREMIUM NOTIFICATIONS =================
+const createToast = (msg, type = "success") => {
+  const toast = document.createElement("div");
+
+  toast.className = `
+    fixed bottom-5 right-5 z-[99999]
+    overflow-hidden
+    min-w-[180px]
+max-w-[280px]
+    rounded-3xl
+    border border-white/30
+    backdrop-blur-2xl
+    shadow-[0_20px_60px_-15px_rgba(0,0,0,0.35)]
+    px-4 py-3
+    flex items-start gap-4
+    animate-[slideUp_.45s_ease]
+    ${
+      type === "success"
+        ? "bg-gradient-to-br from-emerald-500/95 to-green-400/90 text-white"
+        : "bg-gradient-to-br from-red-500/95 to-rose-400/90 text-white"
+    }
+  `;
+
+  toast.innerHTML = `
+    <div class="text-xl mt-0.5">
+      ${type === "success" ? "✅" : "❌"}
+    </div>
+
+    <div class="flex-1">
+      <div class="font-bold text-[13px] mb-0.5">
+        ${type === "success" ? "Success" : "Error"}
+      </div>
+
+      <div class="text-[12px] opacity-90 leading-snug">
+        ${msg}
+      </div>
+    </div>
+
+    <button
+      class="text-white/80 hover:text-white text-lg"
+      onclick="this.parentElement.remove()"
+    >
+      ✕
+    </button>
+
+    <div class="absolute bottom-0 left-0 h-1 w-full bg-white/20 overflow-hidden">
+      <div
+        class="h-full ${
+          type === "success"
+            ? "bg-emerald-200"
+            : "bg-rose-200"
+        } animate-[progress_3s_linear]"
+      ></div>
+    </div>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(20px)";
+
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+};
+
+const showSuccess = (msg) => createToast(msg, "success");
+
+const showError = (msg) => createToast(msg, "error");
+
+
+
+
 
   // ================= INPUT =================
   const handleChange = (e) => {
@@ -727,7 +800,7 @@ return (
       <div className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
 
         <div className="animate-[fadeIn_0.7s_ease]">
-          <h2 className="text-4xl md:text-5xl font-black text-gray-800 leading-tight">
+          <h2 className="text-3xl md:text-3xl font-black text-gray-800 leading-tight">
             Welcome{" "}
             <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
               {user?.name}
@@ -822,7 +895,7 @@ return (
                 {item.title}
               </p>
 
-              <h3 className="text-3xl font-black text-gray-800 mt-2">
+              <h3 className="text-2xl font-black text-gray-800 mt-2">
                 {item.value}
 
                 <span className="text-sm ml-1 text-gray-500 font-medium">
@@ -858,7 +931,7 @@ return (
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-7">
 
             <div>
-              <h3 className="text-2xl font-black text-gray-800">
+              <h3 className="text-xl font-black text-gray-800">
                 {editingId ? "Edit Vital Record" : "Add New Vital"}
               </h3>
 

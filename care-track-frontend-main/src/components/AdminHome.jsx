@@ -48,7 +48,7 @@ return (
 
     {/* HEADER */}
     <div className="relative mb-10">
-      <h2 className="text-3xl md:text-4xl font-black text-gray-800 tracking-tight">
+      <h2 className="text-3xl md:text-3xl font-black text-gray-800 tracking-tight">
         Welcome, <span className="text-sky-600">Admin</span> 👋
       </h2>
 
@@ -113,7 +113,7 @@ return (
             </div>
 
             {/* VALUE */}
-            <div className="text-3xl font-black text-gray-800">
+            <div className="text-2xl font-black text-gray-800">
               {item.value}
             </div>
 

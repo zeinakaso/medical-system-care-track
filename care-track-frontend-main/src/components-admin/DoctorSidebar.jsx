@@ -116,20 +116,23 @@ export default function DoctorSidebar({ isOpen, toggleSidebar }) {
 
           {/* PATIENTS */}
           <NavLink
-            to="/doctor/patients"
-            className={({ isActive }) =>
-              `${linkClass}
-              ${
-                isActive
-                  ? "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg scale-[1.03]"
-                  : "text-gray-700 hover:bg-sky-50 hover:translate-x-1"
-              }`
-            }
-          >
-            <span className="absolute left-0 w-1 h-0 bg-cyan-400 rounded-full transition-all duration-300 group-hover:h-full" />
-            <Users size={18} />
-            My Patients
-          </NavLink>
+  to="/doctor/patients"
+  end
+  className={({ isActive }) =>
+    `${linkClass}
+    ${
+      isActive || window.location.pathname === "/doctor"
+        ? "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg scale-[1.03]"
+        : "text-gray-700 hover:bg-sky-50 hover:translate-x-1"
+    }`
+  }
+>
+  <span className="absolute left-0 w-1 h-0 bg-cyan-400 rounded-full transition-all duration-300 group-hover:h-full" />
+
+  <Users size={18} />
+
+  My Patients
+</NavLink>
 
           {/* ANALYTICS */}
           <NavLink

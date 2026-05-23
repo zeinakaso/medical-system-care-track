@@ -528,28 +528,32 @@ export default function AdminPatients() {
 
     console.log(payload);
 
+    // save
     await API.put(
       `/admin/patients/${editingId}`,
       payload
     );
 
-    await loadData();
-
+    // CLOSE MODAL IMMEDIATELY
     setShowModal(false);
 
+    // toast
     showToast("Patient updated successfully");
 
+    // reload silently
+    loadData();
+
   } catch (err) {
-  console.log("FULL ERROR:", err);
 
-  console.log("DATA:", err.response?.data);
+    console.log("FULL ERROR:", err);
 
-  console.log("ERRORS:", err.response?.data?.errors);
+    console.log("DATA:", err.response?.data);
 
-  alert(JSON.stringify(err.response?.data?.errors, null, 2));
-}
-  };
+    console.log("ERRORS:", err.response?.data?.errors);
 
+    alert(JSON.stringify(err.response?.data?.errors, null, 2));
+  }
+};
   // ================= DELETE =================
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this patient?")) return;
@@ -612,7 +616,7 @@ return (
     <div className="relative flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
 
       <div>
-        <h2 className="text-3xl sm:text-4xl font-black text-gray-800 flex items-center gap-3">
+        <h2 className="text-3xl sm:text-3xl font-black text-gray-800 flex items-center gap-3">
           Patients Management
           <span className="text-3xl animate-bounce">🩺</span>
         </h2>
@@ -738,47 +742,234 @@ return (
       )}
     </div>
 
-    {/* ASSIGN DOCTORS */}
-    <div className="bg-white/60 backdrop-blur-2xl border border-white/40 rounded-3xl shadow-2xl p-6 max-w-md">
 
-      <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-        Assign Doctors <span className="animate-bounce">👨‍⚕️</span>
-      </h3>
+
+    {/* ASSIGN DOCTORS */}
+   <div
+  className="
+    relative
+    overflow-hidden
+    max-w-md
+    rounded-[32px]
+    border border-white/40
+    bg-white/60
+    backdrop-blur-2xl
+    shadow-[0_20px_80px_rgba(15,23,42,0.10)]
+    p-6
+  "
+>
+
+  {/* TOP BAR */}
+  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500"></div>
+
+  {/* GLOW */}
+  <div className="absolute -top-10 -right-10 w-40 h-40 bg-cyan-300/20 rounded-full blur-3xl"></div>
+  <div className="absolute bottom-0 left-0 w-40 h-40 bg-sky-300/20 rounded-full blur-3xl"></div>
+
+  <div className="relative z-10">
+
+    {/* HEADER */}
+    <div className="flex items-center justify-between mb-6">
+
+      <div>
+
+        <div className="flex items-center gap-2 mb-2">
+
+          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+
+          <span className="text-[11px] uppercase tracking-[0.2em] text-sky-600 font-bold">
+            Medical Control
+          </span>
+
+        </div>
+
+        <h3 className="text-xl font-black text-gray-800">
+          Assign Doctors
+        </h3>
+
+        <p className="text-xs text-gray-500 mt-1">
+          Connect doctors with patients securely
+        </p>
+
+      </div>
+
+      {/* ICON */}
+      <div
+        className="
+          w-14 h-14
+          rounded-2xl
+          bg-gradient-to-br
+          from-sky-500
+          to-cyan-400
+          flex items-center justify-center
+          text-2xl
+          shadow-lg
+        "
+      >
+        👨‍⚕️
+      </div>
+
+    </div>
+
+    {/* SELECT PATIENT */}
+    <div className="mb-4">
+
+      <label className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 block">
+        Select Patient
+      </label>
 
       <select
         value={selectedPatient}
         onChange={(e) => setSelectedPatient(e.target.value)}
-        className="w-full mb-3 p-3 rounded-xl bg-white/60 border border-white/40 shadow-sm"
+        className="
+          w-full
+          p-3.5
+          rounded-2xl
+          bg-white/70
+          border border-white/40
+          shadow-sm
+          text-gray-700
+          outline-none
+          focus:ring-4
+          focus:ring-sky-100
+          transition-all
+        "
       >
-        <option value="">Select Patient</option>
+        <option value="">Choose patient...</option>
+
         {patients.map((p) => (
           <option key={p.id} value={p.id}>
             {p.patient_name}
           </option>
         ))}
+
       </select>
 
-      <div className="space-y-2 max-h-40 overflow-y-auto pr-2">
+    </div>
+
+    {/* DOCTORS */}
+    <div>
+
+      <label className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3 block">
+        Available Doctors
+      </label>
+
+      <div
+        className="
+          max-h-52
+          overflow-y-auto
+          pr-2
+          space-y-2
+        "
+      >
+
         {doctorsList.map((doc) => (
-          <label key={doc.id} className="flex items-center gap-2 text-sm text-gray-600">
+
+          <label
+            key={doc.id}
+            className="
+              flex items-center justify-between
+              rounded-2xl
+              border border-white/40
+              bg-white/50
+              px-4 py-3
+              hover:bg-sky-50
+              transition-all
+              cursor-pointer
+              group
+            "
+          >
+
+            <div className="flex items-center gap-3">
+
+              <div
+                className="
+                  w-10 h-10
+                  rounded-xl
+                  bg-gradient-to-br
+                  from-sky-400
+                  to-cyan-400
+                  text-white
+                  flex items-center justify-center
+                  font-bold
+                  shadow-sm
+                "
+              >
+                {doc.doctor_name?.charAt(0)}
+              </div>
+
+              <div>
+
+                <p className="font-semibold text-gray-700 text-sm">
+                  {doc.doctor_name}
+                </p>
+
+                <p className="text-xs text-gray-400">
+                  Medical Specialist
+                </p>
+
+              </div>
+
+            </div>
+
             <input
               type="checkbox"
               checked={selectedDoctors.includes(doc.id)}
               onChange={() => toggleDoctor(doc.id)}
-              className="accent-sky-500"
+              className="
+                w-4 h-4
+                accent-sky-500
+                cursor-pointer
+              "
             />
-            {doc.doctor_name}
+
           </label>
+
         ))}
+
       </div>
 
-      <button
-        onClick={handleAssignSave}
-        className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 via-cyan-500 to-blue-500 text-white font-bold shadow-lg hover:scale-[1.03] transition"
-      >
-        Save Assignment ✨
-      </button>
     </div>
+
+    {/* BUTTON */}
+    <button
+      onClick={handleAssignSave}
+      className="
+        relative
+        overflow-hidden
+        mt-6
+        w-full
+        py-3.5
+        rounded-2xl
+        bg-gradient-to-r
+        from-sky-500
+        via-cyan-500
+        to-blue-500
+        text-white
+        font-bold
+        shadow-lg
+        hover:scale-[1.02]
+        active:scale-[0.98]
+        transition-all
+      "
+    >
+
+      <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition-all"></div>
+
+      <span className="relative">
+        Save Assignment ✨
+      </span>
+
+    </button>
+
+  </div>
+
+</div>
+
+
+
+
+
 
     {/* MODAL */}
     {showModal && (

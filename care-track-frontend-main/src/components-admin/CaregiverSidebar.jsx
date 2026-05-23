@@ -57,6 +57,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function CaregiverSidebar({ isOpen, toggleSidebar }) {
   const location = useLocation();
   const navigate = useNavigate();
+  
 
   const isActive = location.pathname === "/caregiver";
 
@@ -164,12 +165,12 @@ export default function CaregiverSidebar({ isOpen, toggleSidebar }) {
 
         </nav>
 
-        {/* FOOTER */}
+        {/* FOOTER
         <div className="absolute bottom-4 left-0 w-full px-4">
           <div className="text-xs text-center text-blue-400">
             Smart Care System • v1.0
           </div>
-        </div>
+        </div> */}
       </aside>
     </>
   );

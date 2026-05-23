@@ -61,7 +61,9 @@ import DoctorNotifications from "./components/doctor/DoctorNotifications";
 import DoctorPatients from "./components/DoctorHome.jsx";
 import Prescriptions from "./components/doctor/Prescriptions.jsx";
 import Reports from "./components/doctor/Reports.jsx";
-import Setting from "./components/navHome/Setting.jsx";
+
+import Setting from "./components-admin/Setting.jsx";
+import AdminContact from "./components-admin/Contact.jsx";
 
 function App() {
   return (
@@ -75,7 +77,9 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/setting" element={<Setting />} />
+
+       <Route path="/setting" element={<Setting />} />
+       <Route path="/contact-us" element={<AdminContact />} />
 
         {/* Doctor */}
         <Route path="/doctor" element={<DoctorDashboard />}>

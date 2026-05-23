@@ -193,7 +193,7 @@ export default function AdminVitals() {
 
         <div>
 
-          <h2 className="text-3xl sm:text-5xl font-black text-gray-800 flex items-center gap-3 tracking-tight">
+          <h2 className="text-3xl sm:text-3xl font-black text-gray-800 flex items-center gap-3 tracking-tight">
 
             Vital Signs Monitoring
 
@@ -236,73 +236,285 @@ export default function AdminVitals() {
       </div>
 
       {/* 📊 TABLE CARD */}
-      <div className="rounded-3xl overflow-hidden bg-white/70 backdrop-blur-2xl border border-gray-100 shadow-xl">
+      <div
+  className="
+    relative
+    overflow-hidden
+    rounded-[32px]
+    border border-white/50
+    bg-white/75
+    backdrop-blur-2xl
+    shadow-[0_20px_60px_rgba(15,23,42,0.08)]
+  "
+>
 
-        {/* top glow line */}
-        <div className="h-[3px] bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-400 animate-pulse"></div>
+  {/* BACKGROUND GLOW */}
+  <div className="absolute -top-24 -right-24 w-72 h-72 bg-sky-300/20 blur-[120px] rounded-full"></div>
+  <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-300/20 blur-[120px] rounded-full"></div>
 
-        {loading ? (
-          <div className="p-16 text-center text-gray-500">
-            <div className="text-3xl animate-spin mb-3">🫀</div>
-            Loading vital signals...
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
+  {/* TOP LINE */}
+  <div className="h-1 bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500"></div>
 
-            <table className="w-full min-w-[800px] text-sm">
+  {/* HEADER */}
+  <div className="relative px-6 md:px-8 py-5 border-b border-gray-100/80 flex items-center justify-between">
 
-              <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
-                <tr>
-                  <th className="p-5 text-left">#</th>
-                  <th className="p-5 text-left">Patient</th>
-                  <th className="p-5 text-left">Temp</th>
-                  <th className="p-5 text-left">Heart</th>
-                  <th className="p-5 text-left">Pressure</th>
-                  <th className="p-5 text-left">Resp</th>
-                </tr>
-              </thead>
+    <div>
 
-              <tbody>
+      <div className="flex items-center gap-2 mb-1">
 
-                {filteredVitals.map((v) => (
-                  <tr
-                    key={v.id}
-                    className="border-t border-gray-100 hover:bg-sky-50/50 transition"
-                  >
+        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
 
-                    <td className="p-5 text-gray-500">{v.id}</td>
-
-                    <td className="p-5 font-semibold text-gray-800">
-                      {v.patient_name}
-                    </td>
-
-                    <td className="p-5 text-sky-600 font-medium">
-                      {v.temperature}
-                    </td>
-
-                    <td className="p-5 text-gray-700">
-                      {v.heart_rate}
-                    </td>
-
-                    <td className="p-5 text-gray-700">
-                      {v.blood_pressure_systolic} / {v.blood_pressure_diastolic}
-                    </td>
-
-                    <td className="p-5 text-gray-700">
-                      {v.respiratory_rate}
-                    </td>
-
-                  </tr>
-                ))}
-
-              </tbody>
-
-            </table>
-
-          </div>
-        )}
+        <span className="text-[11px] uppercase tracking-[0.25em] text-sky-600 font-bold">
+          Live Monitoring
+        </span>
 
       </div>
+
+      <h2 className="text-2xl font-black text-gray-800 tracking-tight">
+        Vital Signals Dashboard 🫀
+      </h2>
+
+      <p className="text-sm text-gray-500 mt-1">
+        Real-time monitoring of patient health indicators
+      </p>
+
+    </div>
+
+    {/* LIVE STATUS */}
+    <div
+      className="
+        hidden md:flex
+        items-center gap-3
+        px-4 py-2
+        rounded-2xl
+        bg-gradient-to-r
+        from-red-50
+        to-sky-50
+        border border-red-100
+      "
+    >
+
+      <div className="relative flex items-center justify-center">
+
+        <div className="absolute w-3 h-3 rounded-full bg-red-400 animate-ping"></div>
+
+        <div className="relative w-3 h-3 rounded-full bg-red-500"></div>
+
+      </div>
+
+      <div>
+        <p className="text-xs text-gray-500">System Status</p>
+        <h4 className="font-black text-red-500 text-sm">
+          LIVE
+        </h4>
+      </div>
+
+    </div>
+
+  </div>
+
+  {/* LOADING */}
+  {loading ? (
+    <div className="p-16 flex flex-col items-center justify-center">
+
+      <div className="relative mb-5">
+
+        <div className="w-16 h-16 rounded-full border-4 border-sky-100"></div>
+
+        <div className="absolute inset-0 w-16 h-16 rounded-full border-4 border-sky-500 border-t-transparent animate-spin"></div>
+
+      </div>
+
+      <h3 className="text-lg font-bold text-gray-700">
+        Loading Vital Signals...
+      </h3>
+
+      <p className="text-sm text-gray-500 mt-1">
+        Syncing live patient measurements
+      </p>
+
+    </div>
+  ) : (
+    <div className="overflow-x-auto">
+
+      <table className="w-full min-w-[950px] text-sm">
+
+        {/* HEADER */}
+        <thead>
+          <tr className="bg-gradient-to-r from-sky-50 via-white to-cyan-50 text-gray-500 uppercase text-[11px] tracking-[0.18em]">
+
+            <th className="px-6 py-5 text-left font-bold">#</th>
+            <th className="px-6 py-5 text-left font-bold">Patient</th>
+            <th className="px-6 py-5 text-left font-bold">Temperature</th>
+            <th className="px-6 py-5 text-left font-bold">Heart Rate</th>
+            <th className="px-6 py-5 text-left font-bold">Blood Pressure</th>
+            <th className="px-6 py-5 text-left font-bold">Respiratory</th>
+
+          </tr>
+        </thead>
+
+        {/* BODY */}
+        <tbody>
+
+          {filteredVitals.map((v, index) => (
+            <tr
+              key={v.id}
+              className="
+                border-t border-gray-100
+                hover:bg-sky-50/40
+                transition-all duration-300
+              "
+            >
+
+              {/* INDEX */}
+              <td className="px-6 py-5">
+
+                {/* <div
+                  className="
+                    w-8 h-8
+                    rounded-full
+                    bg-gradient-to-br
+                    from-sky-500
+                    to-cyan-500
+                    text-white
+                    text-xs
+                    font-bold
+                    flex items-center justify-center
+                    shadow-md
+                  "
+                > */}
+                  {index + 1}
+                {/* </div> */}
+
+              </td>
+
+              {/* PATIENT */}
+              <td className="px-6 py-5">
+
+                <div className="flex items-center gap-3">
+
+                  {/* <div
+                    className="
+                      w-6 h-6
+                      rounded-2xl
+                      bg-gradient-to-br
+                      from-sky-100
+                      to-cyan-100
+                      flex items-center justify-center
+                      text-lg
+                      shadow-sm
+                    "
+                  >
+                    ⚕️
+                  </div> */}
+
+                  <div>
+
+                    <h4 className="font-bold text-gray-800">
+                      {v.patient_name}
+                    </h4>
+
+                    {/* <p className="text-xs text-gray-400">
+                      Active Monitoring
+                    </p> */}
+
+                  </div>
+
+                </div>
+
+              </td>
+
+              {/* TEMP */}
+              <td className="px-6 py-5">
+
+                <div
+                  className="
+                    inline-flex
+                    items-center gap-2
+                    px-4 py-2
+                    rounded-xl
+                    bg-orange-50
+                    border border-orange-100
+                    text-orange-600
+                    font-bold
+                  "
+                >
+                  🌡️ {v.temperature}°C
+                </div>
+
+              </td>
+
+              {/* HEART */}
+              <td className="px-6 py-5">
+
+                <div
+                  className="
+                    inline-flex
+                    items-center gap-2
+                    px-4 py-2
+                    rounded-xl
+                    bg-red-50
+                    border border-red-100
+                    text-red-500
+                    font-bold
+                  "
+                >
+                  ❤️ {v.heart_rate} BPM
+                </div>
+
+              </td>
+
+              {/* PRESSURE */}
+              <td className="px-6 py-5">
+
+                <div
+                  className="
+                    inline-flex
+                    items-center gap-2
+                    px-4 py-2
+                    rounded-xl
+                    bg-sky-50
+                    border border-sky-100
+                    text-sky-700
+                    font-semibold
+                  "
+                >
+                  🩸 {v.blood_pressure_systolic}/{v.blood_pressure_diastolic}
+                </div>
+
+              </td>
+
+              {/* RESP */}
+              <td className="px-6 py-5">
+
+                <div
+                  className="
+                    inline-flex
+                    items-center gap-2
+                    px-4 py-2
+                    rounded-xl
+                    bg-cyan-50
+                    border border-cyan-100
+                    text-cyan-700
+                    font-semibold
+                  "
+                >
+                  🌬️ {v.respiratory_rate}
+                </div>
+
+              </td>
+
+            </tr>
+          ))}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  )}
+
+</div>
 
     </main>
   </div>

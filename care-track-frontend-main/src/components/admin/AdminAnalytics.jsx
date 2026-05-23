@@ -503,7 +503,7 @@ export default function AdminAnalytics() {
 
             <div>
 
-              <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-3xl font-black bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">
                 Clinical Intelligence
               </h1>
 
@@ -524,7 +524,7 @@ export default function AdminAnalytics() {
             System Status
           </p>
 
-          <h2 className="text-3xl font-black text-emerald-500">
+          <h2 className="text-xl font-black text-emerald-500">
             Stable
           </h2>
 

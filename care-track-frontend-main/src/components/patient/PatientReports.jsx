@@ -985,7 +985,7 @@ export default function PatientHealthOverview() {
 
             <div>
 
-              <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl md:text-2xl font-black bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent">
                 My Health Overview
               </h1>
 
@@ -1045,7 +1045,7 @@ export default function PatientHealthOverview() {
 
                 <h2
                   className={`
-                    text-xl font-black
+                    text-lg font-black
                     ${
                       status.color === "red"
                         ? "text-red-600"
@@ -1212,53 +1212,204 @@ export default function PatientHealthOverview() {
 
       </div>
 
-      {/* TREATMENT */}
-      <div className="relative z-10 bg-white/80 backdrop-blur-xl border border-white rounded-[30px] p-6 shadow-lg">
+     {/* ================= TREATMENT OVERVIEW ================= */}
+<div
+  className="
+    relative overflow-hidden
+    bg-white/80 backdrop-blur-2xl
+    border border-white/60
+    rounded-[32px]
+    p-7
+    shadow-[0_25px_70px_-20px_rgba(0,0,0,0.12)]
+  "
+>
 
-        <div className="flex items-center gap-3 mb-5">
+  {/* BG GLOW */}
+  <div className="absolute -top-16 -right-16 w-56 h-56 bg-sky-100/40 rounded-full blur-3xl"></div>
+  <div className="absolute -bottom-20 -left-20 w-56 h-56 bg-cyan-100/40 rounded-full blur-3xl"></div>
 
-          <Pill className="text-blue-500" />
+  {/* HEADER */}
+  <div className="relative z-10 flex items-center justify-between mb-6">
 
-          <h2 className="text-2xl font-black text-slate-700">
-            Treatment Overview
-          </h2>
+    <div className="flex items-center gap-4">
+
+      <div
+        className="
+          w-14 h-14 rounded-2xl
+          bg-gradient-to-br from-sky-500 to-cyan-400
+          text-white shadow-lg
+          flex items-center justify-center
+        "
+      >
+        <Pill size={26} />
+      </div>
+
+      <div>
+        <h2 className="text-2xl font-black text-slate-800">
+          Treatment Overview
+        </h2>
+
+        <p className="text-sm text-slate-500 mt-1">
+          Current medications & treatment progress
+        </p>
+      </div>
+
+    </div>
+
+    <div
+      className="
+        px-4 py-2 rounded-2xl
+        bg-sky-100 text-sky-700
+        text-sm font-bold
+      "
+    >
+      {plans.length} Plans
+    </div>
+
+  </div>
+
+  {/* EMPTY */}
+  {plans.length === 0 ? (
+
+    <div
+      className="
+        relative z-10
+        rounded-3xl
+        border border-dashed border-slate-200
+        bg-slate-50/70
+        py-14 px-6
+        text-center
+      "
+    >
+
+      <div className="text-5xl mb-4">
+        💊
+      </div>
+
+      <h3 className="text-lg font-bold text-slate-700">
+        No Active Treatments
+      </h3>
+
+      <p className="text-sm text-slate-500 mt-2">
+        There are currently no treatment plans assigned.
+      </p>
+
+    </div>
+
+  ) : (
+
+    <div className="relative z-10 space-y-5">
+
+      {plans.slice(0, 2).map((p) => (
+
+        <div
+          key={p.id}
+          className="
+            group
+            relative overflow-hidden
+            rounded-[28px]
+            border border-slate-100
+            bg-gradient-to-br from-white to-slate-50
+            p-6
+            shadow-sm
+            hover:shadow-xl
+            hover:-translate-y-1
+            transition-all duration-300
+          "
+        >
+
+          {/* hover glow */}
+          <div
+            className="
+              absolute inset-0 opacity-0
+              group-hover:opacity-100
+              transition
+              bg-gradient-to-r from-sky-100/20 to-cyan-100/10
+              pointer-events-none
+            "
+          />
+
+          {/* TOP */}
+          <div className="relative z-10 flex items-start justify-between mb-5">
+
+            <div>
+              <div className="text-xs uppercase tracking-wider font-bold text-sky-600 mb-2">
+                Diagnosis
+              </div>
+
+              <h3 className="text-xl font-black text-slate-800">
+                {p.diagnosis}
+              </h3>
+            </div>
+
+            <div
+              className="
+                px-4 py-2 rounded-2xl
+                bg-emerald-100 text-emerald-700
+                text-xs font-bold
+              "
+            >
+              Active
+            </div>
+
+          </div>
+
+          {/* MEDICATIONS */}
+          <div className="relative z-10 mb-5">
+
+            <div className="text-xs uppercase tracking-wider font-bold text-slate-500 mb-2">
+              Medications
+            </div>
+
+            <div
+              className="
+                rounded-2xl
+                bg-slate-50
+                border border-slate-100
+                p-4
+                text-slate-700
+                leading-relaxed
+              "
+            >
+              {p.medications}
+            </div>
+
+          </div>
+
+          {/* STATUS */}
+          <div className="relative z-10 flex flex-wrap gap-3">
+
+            <div
+              className="
+                px-4 py-2 rounded-2xl
+                bg-blue-50 text-blue-700
+                text-sm font-semibold
+              "
+            >
+              🩺 Under Monitoring
+            </div>
+
+            <div
+              className="
+                px-4 py-2 rounded-2xl
+                bg-cyan-50 text-cyan-700
+                text-sm font-semibold
+              "
+            >
+              💊 Treatment Active
+            </div>
+
+          </div>
 
         </div>
 
-        {plans.length === 0 ? (
+      ))}
 
-          <p className="text-slate-500">
-            No active treatment plans available.
-          </p>
+    </div>
 
-        ) : (
+  )}
 
-          plans.slice(0, 2).map((p) => (
-
-            <div
-              key={p.id}
-              className="bg-slate-50 border border-slate-100 rounded-2xl p-5 mb-4"
-            >
-
-              <p className="mb-2 text-slate-700">
-                <b>Diagnosis:</b> {p.diagnosis}
-              </p>
-
-              <p className="mb-2 text-slate-700">
-                <b>Medications:</b> {p.medications}
-              </p>
-
-              <p className="text-slate-700">
-                <b>Status:</b> Under Monitoring
-              </p>
-
-            </div>
-
-          ))
-
-        )}
-
-      </div>
+</div>
 
     </div>
   );

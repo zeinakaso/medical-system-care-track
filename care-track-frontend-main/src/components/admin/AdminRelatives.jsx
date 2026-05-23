@@ -363,32 +363,50 @@ export default function Relatives() {
   };
 
   // ================= SAVE =================
-  const handleSave = async () => {
+const handleSave = async () => {
 
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
+  const validationError = validateForm();
 
-    try {
-      await API.put(`/admin/relatives/${editingId}`, {
-        relation: formData.relation,
-        phone: formData.phone
-      });
+  if (validationError) {
+    setError(validationError);
+    return;
+  }
 
-      await loadRelatives();
+  try {
 
-      setShowModal(false);
-      setError("");
-      showToast("Relative updated successfully");
+    // سكر الموديل فوراً
+    setShowModal(false);
 
-    } catch (err) {
-      console.error(err);
-      showToast("Update failed ❌");
-    }
-  };
+    // الاشعار يطلع مباشرة
+    showToast("Relative updated successfully ✨");
 
+    // تحميل وهمي ليبين تحديث الصفحة
+    setLoading(true);
+
+    await API.put(`/admin/relatives/${editingId}`, {
+      relation: formData.relation,
+      phone: formData.phone
+    });
+
+    // تحديث البيانات
+    await loadRelatives();
+
+    setError("");
+
+  } catch (err) {
+
+    console.error(err);
+
+    setShowModal(true);
+
+    showToast("Update failed ❌");
+
+  } finally {
+
+    setLoading(false);
+
+  }
+};
   // ================= TOAST =================
   const showToast = (msg) => {
     setToast(msg);
@@ -415,7 +433,7 @@ export default function Relatives() {
 
         <div>
 
-          <h2 className="text-3xl sm:text-5xl font-black text-gray-800 flex items-center gap-3 tracking-tight">
+          <h2 className="text-3xl sm:text-3xl font-black text-gray-800 flex items-center gap-3 tracking-tight">
 
             Relatives Management
 
@@ -456,96 +474,336 @@ export default function Relatives() {
 
       </div>
 
+
+
+
       {/* 📊 TABLE CARD */}
-      <div className="rounded-3xl overflow-hidden bg-white/70 backdrop-blur-2xl border border-gray-100 shadow-xl">
+    <div
+  className="
+    relative
+    overflow-hidden
+    rounded-[32px]
+    border border-white/50
+    bg-white/75
+    backdrop-blur-2xl
+    shadow-[0_20px_60px_rgba(15,23,42,0.08)]
+  "
+>
 
-        {/* top glow line */}
-        <div className="h-[3px] bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 animate-pulse"></div>
+  {/* BACKGROUND GLOW */}
+  <div className="absolute -top-24 -right-24 w-72 h-72 bg-sky-300/20 blur-[120px] rounded-full"></div>
+  <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-cyan-300/20 blur-[120px] rounded-full"></div>
 
-        {loading ? (
-          <div className="p-16 text-center text-gray-500">
-            <div className="text-3xl animate-bounce mb-3">👥</div>
-            Loading relatives...
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
+  {/* TOP LINE */}
+  <div className="h-1 bg-gradient-to-r from-sky-400 via-cyan-400 to-indigo-400"></div>
 
-            <table className="w-full min-w-[800px] text-sm">
+  {/* HEADER */}
+  <div className="relative px-6 md:px-8 py-5 border-b border-gray-100/80 flex items-center justify-between">
 
-              <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
-                <tr>
-                  <th className="p-5 text-left">ID</th>
-                  <th className="p-5 text-left">Name</th>
-                  <th className="p-5 text-left">Email</th>
-                  <th className="p-5 text-left">Patient Name</th>
-                  <th className="p-5 text-left">Patient Email</th>
-                  <th className="p-5 text-left">Relation</th>
-                  <th className="p-5 text-left">Phone</th>
-                  <th className="p-5 text-left">Actions</th>
-                </tr>
-              </thead>
+    <div>
 
-              <tbody>
+      <div className="flex items-center gap-2 mb-1">
 
-                {filteredRelatives.map((r) => (
-                  <tr
-                    key={r.id}
-                    className="border-t border-gray-100 hover:bg-blue-50/40 transition"
-                  >
+        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
 
-                    <td className="p-5 text-gray-500">{r.id}</td>
-
-                    <td className="p-5 font-semibold text-gray-800">
-                      {r.user?.name || "-"}
-                    </td>
-
-                    <td className="p-5 text-gray-600">
-                      {r.user?.email || "-"}
-                    </td>
-
-                    <td className="p-5 text-gray-600">
-                      {r.patients?.length > 0
-                        ? r.patients.map(p => p.name).join(", ")
-                        : "-"}
-                    </td>
-
-                    <td className="p-5 text-gray-600">
-                      {r.patients?.length > 0
-                        ? r.patients.map(p => p.email).join(", ")
-                        : "-"}
-                    </td>
-
-                    <td className="p-5">
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-600">
-                        {r.relation}
-                      </span>
-                    </td>
-
-                    <td className="p-5 text-gray-600">
-                      {r.phone}
-                    </td>
-
-                    <td className="p-5">
-                      <button
-                        onClick={() => handleEdit(r)}
-                        className="px-3 py-1 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition flex items-center gap-1"
-                      >
-                        <Pencil size={16} />
-                        Edit
-                      </button>
-                    </td>
-
-                  </tr>
-                ))}
-
-              </tbody>
-
-            </table>
-
-          </div>
-        )}
+        <span className="text-[11px] uppercase tracking-[0.25em] text-sky-600 font-bold">
+          Family Access
+        </span>
 
       </div>
+
+      <h2 className="text-2xl font-black text-gray-800 tracking-tight">
+        Relatives Management 👨‍👩‍👧
+      </h2>
+
+      <p className="text-sm text-gray-500 mt-1">
+        Manage relatives, linked patients and communication access
+      </p>
+
+    </div>
+
+    {/* STATS */}
+    <div
+      className="
+        hidden md:flex
+        items-center gap-3
+        px-4 py-2
+        rounded-2xl
+        bg-gradient-to-r
+        from-sky-50
+        to-cyan-50
+        border border-sky-100
+      "
+    >
+
+      <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
+        👥
+      </div>
+
+      <div>
+        <p className="text-xs text-gray-500">Total Relatives</p>
+        <h4 className="font-black text-sky-700 text-lg">
+          {filteredRelatives.length}
+        </h4>
+      </div>
+
+    </div>
+
+  </div>
+
+  {/* LOADING */}
+  {loading ? (
+    <div className="p-16 flex flex-col items-center justify-center">
+
+      <div className="relative mb-5">
+
+        <div className="w-16 h-16 rounded-full border-4 border-sky-100"></div>
+
+        <div className="absolute inset-0 w-16 h-16 rounded-full border-4 border-sky-500 border-t-transparent animate-spin"></div>
+
+      </div>
+
+      <h3 className="text-lg font-bold text-gray-700">
+        Loading Relatives...
+      </h3>
+
+      <p className="text-sm text-gray-500 mt-1">
+        Fetching family members data
+      </p>
+
+    </div>
+  ) : (
+    <div className="overflow-x-auto">
+
+      <table className="w-full min-w-[1100px] text-sm">
+
+        {/* HEADER */}
+        <thead>
+          <tr className="bg-gradient-to-r from-sky-50 via-white to-cyan-50 text-gray-500 uppercase text-[11px] tracking-[0.18em]">
+
+            <th className="px-6 py-5 text-left font-bold">#</th>
+            <th className="px-6 py-5 text-left font-bold">Relative</th>
+            <th className="px-6 py-5 text-left font-bold">Email</th>
+            <th className="px-6 py-5 text-left font-bold">Patients</th>
+            <th className="px-6 py-5 text-left font-bold">Patient Emails</th>
+            <th className="px-6 py-5 text-left font-bold">Relation</th>
+            <th className="px-6 py-5 text-left font-bold">Phone</th>
+            <th className="px-6 py-5 text-left font-bold">Actions</th>
+
+          </tr>
+        </thead>
+
+        {/* BODY */}
+        <tbody>
+
+          {filteredRelatives.map((r, index) => (
+            <tr
+              key={r.id}
+              className="
+                border-t border-gray-100
+                hover:bg-sky-50/40
+                transition-all duration-300
+              "
+            >
+
+              {/* INDEX */}
+              <td className="px-6 py-5">
+
+                {/* <div
+                  className="
+                    w-8 h-8
+                    rounded-full
+                    bg-gradient-to-br
+                    from-sky-500
+                    to-cyan-500
+                    text-white
+                    text-xs
+                    font-bold
+                    flex items-center justify-center
+                    shadow-md
+                  "
+                > */}
+                  {index + 1}
+                {/* </div> */}
+
+              </td>
+
+              {/* RELATIVE */}
+              <td className="px-6 py-5">
+
+                <div className="flex items-center gap-3">
+
+                  <div
+                    className="
+                      w-6 h-6
+                      rounded-2xl
+                      bg-gradient-to-br
+                      from-sky-100
+                      to-cyan-100
+                      flex items-center justify-center
+                      text-lg
+                      shadow-sm
+                    "
+                  >
+                    👤
+                  </div>
+
+                  <div>
+
+                    <h4 className="font-bold text-gray-800">
+                      {r.user?.name || "-"}
+                    </h4>
+
+                    {/* <p className="text-xs text-gray-400">
+                      Family Member
+                    </p> */}
+
+                  </div>
+
+                </div>
+
+              </td>
+
+              {/* EMAIL */}
+              <td className="px-6 py-5 text-gray-600 font-medium">
+                {r.user?.email || "-"}
+              </td>
+
+              {/* PATIENTS */}
+              <td className="px-6 py-5">
+
+                <div className="flex flex-wrap gap-2">
+
+                  {r.patients?.length > 0 ? (
+                    r.patients.map((p, i) => (
+                      <span
+                        key={i}
+                        className="
+                          px-3 py-1
+                          rounded-full
+                          text-xs
+                          font-semibold
+                          bg-sky-100
+                          text-sky-700
+                        "
+                      >
+                        {p.name}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-gray-400">-</span>
+                  )}
+
+                </div>
+
+              </td>
+
+              {/* PATIENT EMAILS */}
+              <td className="px-6 py-5 text-gray-600 max-w-[220px]">
+
+                <div className="space-y-1">
+
+                  {r.patients?.length > 0 ? (
+                    r.patients.map((p, i) => (
+                      <p
+                        key={i}
+                        className="truncate text-sm"
+                      >
+                        {p.email}
+                      </p>
+                    ))
+                  ) : (
+                    "-"
+                  )}
+
+                </div>
+
+              </td>
+
+              {/* RELATION */}
+              <td className="px-6 py-5">
+
+                <span
+                  className="
+                    inline-flex
+                    items-center
+                    px-4 py-2
+                    rounded-full
+                    text-xs
+                    font-bold
+                    bg-gradient-to-r
+                    from-blue-100
+                    to-cyan-100
+                    text-blue-700
+                    shadow-sm
+                  "
+                >
+                  💙 {r.relation}
+                </span>
+
+              </td>
+
+              {/* PHONE */}
+              <td className="px-6 py-5">
+
+                <div
+                  className="
+                    inline-flex
+                    items-center gap-2
+                    px-3 py-2
+                    rounded-xl
+                    bg-gray-50
+                    border border-gray-100
+                    text-gray-600
+                    font-medium
+                  "
+                >
+                  📞 {r.phone}
+                </div>
+
+              </td>
+
+              {/* ACTION */}
+              <td className="px-6 py-5">
+
+                <button
+                  onClick={() => handleEdit(r)}
+                  className="
+                    flex items-center gap-2
+                    px-4 py-2
+                    rounded-xl
+                    bg-gradient-to-r
+                    from-sky-500
+                    to-cyan-500
+                    text-white
+                    text-sm
+                    font-semibold
+                    shadow-md
+                    hover:scale-105
+                    hover:shadow-xl
+                    transition-all
+                  "
+                >
+                  <Pencil size={15} />
+                  Edit
+                </button>
+
+              </td>
+
+            </tr>
+          ))}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  )}
+
+</div>
+
+
+
 
     </main>
 
@@ -612,9 +870,60 @@ export default function Relatives() {
 
     {/* 🍞 TOAST */}
     {toast && (
-      <div className="fixed bottom-6 right-6 bg-white border border-gray-200 shadow-xl text-gray-700 px-4 py-2 rounded-2xl animate-bounce">
-        ✓ {toast}
-      </div>
+       <div
+  className="
+    fixed
+    bottom-6
+    right-6
+    z-50
+    overflow-hidden
+    rounded-2xl
+    border border-white/30
+    bg-white/80
+    backdrop-blur-2xl
+    shadow-[0_15px_50px_rgba(14,165,233,0.25)]
+    px-5
+    py-4
+    animate-[fadeIn_.35s_ease]
+  "
+>
+
+  {/* glow */}
+  <div className="absolute -top-10 -right-10 w-24 h-24 bg-cyan-300/30 rounded-full blur-3xl"></div>
+
+  <div className="relative flex items-center gap-4">
+
+    {/* icon */}
+    <div
+      className="
+        w-11 h-11
+        rounded-2xl
+        bg-gradient-to-br
+        from-emerald-400
+        to-cyan-500
+        flex items-center justify-center
+        shadow-lg
+      "
+    >
+      <span className="text-white text-lg">✓</span>
+    </div>
+
+    {/* text */}
+    <div>
+
+      <p className="text-sm font-bold text-slate-800">
+        Success
+      </p>
+
+      <p className="text-sm text-slate-500">
+        {toast}
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
     )}
 
   </div>
